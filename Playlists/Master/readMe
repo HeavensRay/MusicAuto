@@ -1,3 +1,0 @@
-this is the master file containing all songs ever registered.
- When adding a song to playlist it's looked for in here.
-songList is used to sort, pick at random etc but for finding a song we use json

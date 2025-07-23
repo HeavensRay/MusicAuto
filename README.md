@@ -1,2 +1,1 @@
-# early-shananigans
-first repo with some of my first projects
+an automatic way of storing playlists and playing music from browser
