@@ -4,6 +4,7 @@ from selenium.webdriver.edge.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
+import os
 
 from urllib.parse import urlparse, parse_qs
 import time
@@ -12,8 +13,7 @@ import time
 driver = None
 
 # === Config ===
-msedgedriver_path = "C:\\Users\\lhmper5\\Documents\\py_try\\newMusic_3.0\\webDriver\\msedgedriver.exe"
-original_url = "https://www.youtube.com/watch?v=sz5CXeMeX70&list=RDsz5CXeMeX70&start_radio=1"
+msedgedriver_path = os.path.dirname(__file__) +"\\webDriver\\msedgedriver.exe"
 
 # === URL Cleanup ===
 def clean_youtube_url(url):
