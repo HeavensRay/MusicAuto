@@ -43,7 +43,7 @@ def make_playlist(name=None): #makes playlist
     
 
 def fileNotExist(songName,mode):
-    data=input(f"'{songName}' not found. Would you like to create it? ").lower()
+    data=input(f"'{songName}' not found. Would you like to create it? y/n ").lower()
     if(data=="yes" or data=="y"):
         if(mode==SONG):
             make_song(songName)
@@ -133,6 +133,7 @@ def printList():
             return
         for x in list(listData):
             print(F"{x}: ",end=" ")
+        print()
 
 def printSongInfo(songName=None):
 
@@ -144,7 +145,7 @@ def printSongInfo(songName=None):
         print("Song not found")
         return
     print(f"{songData["name"]} by {songData["author"]} {songData["desc"]}")
-    run=input("do you wish to run it? ")
+    run=input("do you wish to run it? y/n ")
     if(run=="y" or run=="yes"):
         urlManip(songName)
 
@@ -156,7 +157,7 @@ def urlManip(songName):
         run_video_watcher(url)
         return
     else:
-        ans=input(f"url for {songName} not provided. Would you like to give url? ")
+        ans=input(f"url for {songName} not provided. Would you like to give url y/n ")
         if(ans=="y" or ans=="yes"):
             url=input("Input valid url and try again ")
             editSong(songName,'url',url)
@@ -234,7 +235,7 @@ def delPlaylist():
 def randSong(listName=None,path=None):
     print("choosing a song at random")
     if(listName==None):  
-        yN=input("From list ? ")
+        yN=input("From list? y/n  ")
         listName="songList"
         path=const.MASTER
         if(yN=="y" or yN=="yes"):
@@ -277,12 +278,12 @@ def AutoPlay():
 
 def Testing():
     print("Testing begins")
-    const.PLAY_PATH = "\\Testing\\"
-    const.MASTER=f".{const.PLAY_PATH}Master\\"
+    const.PLAY_PATH = ".\\Testing\\"
+    const.MASTER=f"{const.PLAY_PATH}Master\\"
     print("If you wish to quit testing simply exit the program: -1 ")
     main()
-    print("Would you like to delete testing mode? ")
-    const.PLAY_PATH = "\\Playlists\\"
+    print("Would you like to delete testing mode? y/n ")
+    const.PLAY_PATH = ".\\Playlists\\"
     print("Switched out of testing")
 
 def main():
