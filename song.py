@@ -1,6 +1,7 @@
 import json
+import const
 
-MASTER=".\\Playlists\\Master\\" # filepath to musics
+
 SONG_LIST="songList.txt"
 
 class Song:
@@ -18,13 +19,13 @@ class Song:
         
         try:
             song_json = json.dumps(songMake ,indent=4)
-            with open(f'{MASTER}{self.name}.json', 'x') as file:  # a for appending creates new if it doesnt exist
+            with open(f'{const.MASTER}{self.name}.json', 'x') as file:  # a for appending creates new if it doesnt exist
                 file.write(song_json)
         
         except FileExistsError:
             print(f"Song '{self.name}' already exists.")
         else:
-            with open(f'{MASTER}songList.txt','a') as file:
+            with open(f'{const.MASTER}songList.txt','a') as file:
                 file.write(f"{self.name}:")
 
 def editSong(songName,mode,extra):  #edits description or url etc
@@ -37,21 +38,21 @@ def editSong(songName,mode,extra):  #edits description or url etc
     # Convert the modified data back to JSON
     modified_json = json.dumps(data)   
 
-    with open(f"{MASTER}{songName}.json", "w") as file:
+    with open(f"{const.MASTER}{songName}.json", "w") as file:
         file.write(modified_json)
     
     print("Song edited successfully")
 def SearchSong(songName):   
     from pathlib import Path
      
-    filePath=Path(MASTER) / f"{songName}.json"
+    filePath=Path(const.MASTER) / f"{songName}.json"
     if not filePath.exists():
         raise FileNotFoundError
 
        
 
 def openSong(songName):
-    with open(f"{MASTER}{songName}.json", 'r') as file:
+    with open(f"{const.MASTER}{songName}.json", 'r') as file:
         data = json.load(file)
         return data
 

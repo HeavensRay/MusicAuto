@@ -36,6 +36,7 @@ options.add_argument("--disable-background-networking")
 options.add_argument("--disable-client-side-phishing-detection")
 options.add_argument("--disable-default-apps")
 options.add_argument("--disable-sync")
+options.add_argument('--log-level=3') 
 
 
 service = Service(msedgedriver_path)

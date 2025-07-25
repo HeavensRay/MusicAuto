@@ -1,7 +1,7 @@
 from song import *
 from playList import *
 import validators  
-from const import *
+import const
 import time
 SONG="song"
 LIST="list"
@@ -21,6 +21,7 @@ def menu(command):
         case 7: printList()
         case 8: printSongInfo(randSong())
         case 9: AutoPlay()
+        case 101:Testing()
         case _: print("Invalid command")
 
 def make_song(name=None): #makes song w user
@@ -78,7 +79,7 @@ def SongToPlaylist():
     print("Adding song to a playlist")
     listName=input("Which list? ")
     try:
-        listData=openList(PLAY_PATH,listName)
+        listData=openList(const.PLAY_PATH,listName)
     except FileNotFoundError:
          fileNotExist(listName,LIST)
          return
@@ -95,7 +96,7 @@ def SongToPlaylist():
         #now that we have a list let's check for duplicates
         if(checkForDuplicates(songName,listData)):
             return
-        addToList(PLAY_PATH,songName,listName)
+        addToList(const.PLAY_PATH,songName,listName)
         print(f"{songName} added to {listName} successfully")
          
 def print_commands():
@@ -112,12 +113,12 @@ def print_commands():
 
 def printList():
     listName=input("give a playlist name A for songList B for allList ").lower()
-    path=PLAY_PATH
+    path=const.PLAY_PATH
     try:
         match(str(listName)):
             case "a": 
                 listName="songList" 
-                path=MASTER
+                path=const.MASTER
             case "b": 
                 listName="allLists"
         listData=openList(path,listName)
@@ -131,7 +132,7 @@ def printList():
             print("the list is empty")
             return
         for x in list(listData):
-            print(x)
+            print(x ,end=" ")
 
 def printSongInfo(songName=None):
 
@@ -179,7 +180,7 @@ def DelSongFromPlaylist():
     
     try:
         SearchSong(song)
-        data=openList(PLAY_PATH,list)
+        data=openList(const.PLAY_PATH,list)
         ans=input(f"Are you sure you wish to remove {song} from {list} y/n? ").lower().strip()
         if not(ans=="y" or ans=="yes"):
             print("Deletion canceled... \n returning to menu")
@@ -193,19 +194,20 @@ def DelSongFromPlaylist():
             if x==list or x=='':
                 data.remove(x)
 
-        with open(f'{PLAY_PATH}{list}.txt', 'w') as file:
+        with open(f'{const.PLAY_PATH}{list}.txt', 'w') as file:
             for x in newData:
                 file.write(f"{x}:")
     except FileNotFoundError:
         print("Something wasn't found \n returning to menu")
     
 def delPlaylist():
+    from const import ALL_LISTS
     print("Removing playlist")
     list=input("Enter playlist you wish to delete ").strip()
     
     try:
-        listExists(PLAY_PATH,list)
-        allLists=openList(PLAY_PATH,ALL_LISTS)
+        listExists(const.PLAY_PATH,list)
+        allLists=openList(const.PLAY_PATH,ALL_LISTS)
         ans=input(f"Are you sure you wish to remove playlist {list} y/n? ").lower().strip()
         if not(ans=="y" or ans=="yes"):
             print("Deletion canceled... \n returning to menu")
@@ -214,14 +216,14 @@ def delPlaylist():
         print(f"Deleting {list} ... ")
         from pathlib import Path
      
-        listPath=Path(PLAY_PATH) / f"{list}.txt"
+        listPath=Path(const.PLAY_PATH) / f"{list}.txt"
         newAll=allLists
 
         for x in allLists:
             if x==list or x=='':
                 newAll.remove(x)
 
-        with open(f'{PLAY_PATH}{ALL_LISTS}.txt', 'w') as file:
+        with open(f'{const.PLAY_PATH}{ALL_LISTS}.txt', 'w') as file:
             for x in newAll:
                 file.write(f"{x}:")
         listPath.unlink()
@@ -234,10 +236,10 @@ def randSong(listName=None,path=None):
     if(listName==None):  
         yN=input("From list ? ")
         listName="songList"
-        path=MASTER
+        path=const.MASTER
         if(yN=="y" or yN=="yes"):
             listName=input("Give valid list name")
-            path=PLAY_PATH
+            path=const.PLAY_PATH
             
     try:
             listData=openList(path,listName)
@@ -252,12 +254,12 @@ def randSong(listName=None,path=None):
 
 def AutoPlay():
     print("🔁 Autoplaying ... ")
-    yN=input("From list? ")
+    yN=input("From list? y/n")
     listName="songList"
-    path=MASTER
+    path=const.MASTER
     if(yN=="y" or yN=="yes"):
         listName=input("Give valid list name ")
-        path=PLAY_PATH
+        path=const.PLAY_PATH
         
     try:
         listData=openList(path,listName)
@@ -273,7 +275,15 @@ def AutoPlay():
         for x in list(listData):
                 urlManip(randSong(listName,path))
 
-
+def Testing():
+    print("Testing begins")
+    const.PLAY_PATH = ".\\Testing\\"
+    const.MASTER=f".{const.PLAY_PATH}Master\\"
+    print("If you wish to quit testing simply exit the program: -1 ")
+    main()
+    print("Would you like to delete testing mode? ")
+    const.PLAY_PATH = ".\\Playlists\\"
+    print("Switched out of testing")
 
 def main():
     command = None

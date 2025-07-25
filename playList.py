@@ -1,4 +1,4 @@
-from const import PLAY_PATH
+import const
 from pathlib import Path
 
 
@@ -10,13 +10,13 @@ class Playlist:
 def createTxt(self):
     # Create the directory
         try:
-            with open(f'{PLAY_PATH}{self.name}.txt', 'x') as file: # makes empty file once
+            with open(f'{const.PLAY_PATH}{self.name}.txt', 'x') as file: # makes empty file once
                 pass 
         except FileExistsError:
             print(f"Playlist {self.name} already exists.")
         else:
             print(f"Playlist {self.name} created successfully")
-            with open(f'{PLAY_PATH}allLists.txt','a') as file: # saves to allLists 
+            with open(f'{const.PLAY_PATH}allLists.txt','a') as file: # saves to allLists 
                 file.write(f"{self.name}:")
 
 def addToList(path,songName,listName):
