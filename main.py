@@ -132,7 +132,7 @@ def printList():
             print("the list is empty")
             return
         for x in list(listData):
-            print(x ,end=" ")
+            print(F"{x}: ",end=" ")
 
 def printSongInfo(songName=None):
 
@@ -254,7 +254,7 @@ def randSong(listName=None,path=None):
 
 def AutoPlay():
     print("🔁 Autoplaying ... ")
-    yN=input("From list? y/n")
+    yN=input("From list? y/n ")
     listName="songList"
     path=const.MASTER
     if(yN=="y" or yN=="yes"):
@@ -277,12 +277,12 @@ def AutoPlay():
 
 def Testing():
     print("Testing begins")
-    const.PLAY_PATH = ".\\Testing\\"
+    const.PLAY_PATH = "\\Testing\\"
     const.MASTER=f".{const.PLAY_PATH}Master\\"
     print("If you wish to quit testing simply exit the program: -1 ")
     main()
     print("Would you like to delete testing mode? ")
-    const.PLAY_PATH = ".\\Playlists\\"
+    const.PLAY_PATH = "\\Playlists\\"
     print("Switched out of testing")
 
 def main():
