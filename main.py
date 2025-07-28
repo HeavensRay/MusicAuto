@@ -148,6 +148,10 @@ def printSongInfo(songName=None):
     run=input("do you wish to run it? y/n ")
     if(run=="y" or run=="yes"):
         urlManip(songName)
+        from launchVid import close_window
+        close_window()
+    
+
 
 def urlManip(songName):
     url=openSong(songName)["url"]
@@ -239,7 +243,7 @@ def randSong(listName=None,path=None):
         listName="songList"
         path=const.MASTER
         if(yN=="y" or yN=="yes"):
-            listName=input("Give valid list name")
+            listName=input("Give valid list name ")
             path=const.PLAY_PATH
             
     try:
@@ -275,6 +279,8 @@ def AutoPlay():
     else:
         for x in list(listData):
                 urlManip(randSong(listName,path))
+    from launchVid import close_window
+    close_window()
 
 def Testing():
     print("Testing begins")

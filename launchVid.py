@@ -142,6 +142,9 @@ def run_video_watcher(url):
 
 
     wait_for_video_end_or_change(driver)
-
-    print("✅ Song ended")
     return 200
+
+def close_window():
+    print("Session ended 🎬")
+    if driver is not None:
+        driver.close()
