@@ -155,7 +155,6 @@ def printSongInfo(songName=None):
 
 def urlManip(songName):
     url=openSong(songName)["url"]
-    #url="https://www.youtube.com/watch?v=ETxmCCsMoD0&list=RDETxmCCsMoD0&start_radio=1
     if(validators.url(url)):
         from launchVid import run_video_watcher
         run_video_watcher(url)

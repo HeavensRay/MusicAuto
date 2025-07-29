@@ -130,6 +130,8 @@ def run_video_watcher(url):
     if driver is None or not is_driver_alive(driver):
         print("🚀 Launching new browser...")
         driver = create_driver()
+        
+        return
     else:
         print("🟢 Reusing browser session.")
 
