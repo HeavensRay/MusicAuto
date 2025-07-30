@@ -1,7 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.edge.service import Service
 from selenium.webdriver.edge.options import Options
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 import os
@@ -42,12 +41,12 @@ options.add_argument('--log-level=3')
 service = Service(msedgedriver_path)
 
 # === Stealth Script ===
-stealth_script = """
-  Object.defineProperty(navigator, 'webdriver', { get: () => undefined });
-  window.navigator.chrome = { runtime: {} };
-  Object.defineProperty(navigator, 'plugins', { get: () => [1,2,3] });
-  Object.defineProperty(navigator, 'languages', { get: () => ['en-US','en'] });
-"""
+# stealth_script = """
+#   Object.defineProperty(navigator, 'webdriver', { get: () => undefined });
+#   window.navigator.chrome = { runtime: {} };
+#   Object.defineProperty(navigator, 'plugins', { get: () => [1,2,3] });
+#   Object.defineProperty(navigator, 'languages', { get: () => ['en-US','en'] });
+# """
 # # === Autoplay Off ===
 # def disable_autoplay(driver):
 #     try:
@@ -59,7 +58,7 @@ stealth_script = """
 #         pass
 def create_driver():
     driver = webdriver.Edge(service=service, options=options)
-    driver.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {"source": stealth_script})
+    # driver.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {"source": stealth_script})
     return driver
 
 def is_driver_alive(driver):
@@ -130,8 +129,6 @@ def run_video_watcher(url):
     if driver is None or not is_driver_alive(driver):
         print("🚀 Launching new browser...")
         driver = create_driver()
-        
-        return
     else:
         print("🟢 Reusing browser session.")
 

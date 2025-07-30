@@ -1,6 +1,6 @@
 from song import *
 from playList import *
-import validators  
+from hand import qu
 import const
 import time
 SONG="song"
@@ -147,27 +147,27 @@ def printSongInfo(songName=None):
     print(f"{songData["name"]} by {songData["author"]} {songData["desc"]}")
     run=input("do you wish to run it? y/n ")
     if(run=="y" or run=="yes"):
-        urlManip(songName)
-        from launchVid import close_window
-        close_window()
+        qu.put(songName)
+        # from launchVid import close_window
+        # close_window()
     
 
 
-def urlManip(songName):
-    url=openSong(songName)["url"]
-    if(validators.url(url)):
-        from launchVid import run_video_watcher
-        run_video_watcher(url)
-        return
-    else:
-        ans=input(f"url for {songName} not provided. Would you like to give url y/n ")
-        if(ans=="y" or ans=="yes"):
-            url=input("Input valid url and try again ")
-            editSong(songName,'url',url)
-            urlManip(songName)
-        else:
-            print("Returning...")
-            return
+# def urlManip(songName):
+#     url=openSong(songName)["url"]
+#     if(validators.url(url)):
+#         from launchVid import run_video_watcher
+#         run_video_watcher(url)
+#         return
+#     else:
+#         ans=input(f"url for {songName} not provided. Would you like to give url y/n ")
+#         if(ans=="y" or ans=="yes"):
+#             url=input("Input valid url and try again ")
+#             editSong(songName,'url',url)
+#             urlManip(songName)
+#         else:
+#             print("Returning...")
+#             return
 
 def DeleteFile():
     answer=int(input("what would you like to delete? 1, playlist 2 song from playlist "))
@@ -273,13 +273,13 @@ def AutoPlay():
     ans=input("Would you like to randomize it? y/n ")
     if not (ans=="y" or ans=="yes"):
         for x in list(listData):
-                urlManip(x)
+                qu.put(x)
     
     else:
         for x in list(listData):
-                urlManip(randSong(listName,path))
-    from launchVid import close_window
-    close_window()
+                qu.put(randSong(listName,path))
+    # from launchVid import close_window
+    # close_window()
 
 def Testing():
     print("Testing begins")
@@ -301,4 +301,6 @@ def main():
             print("Command must be a number")
     
 if __name__ == "__main__":
+    from hand import first_launch
+    first_launch()
     main()
