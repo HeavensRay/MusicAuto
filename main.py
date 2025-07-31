@@ -144,7 +144,7 @@ def printSongInfo(songName=None):
     except FileNotFoundError:
         print("Song not found")
         return
-    print(f"{songData["name"]} by {songData["author"]} {songData["desc"]}")
+    print(f"{songData['name']} by {songData['author']} {songData['desc']}")
     run=input("do you wish to run it? y/n ")
     if(run=="y" or run=="yes"):
         qu.put(songName)

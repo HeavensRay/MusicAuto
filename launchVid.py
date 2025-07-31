@@ -40,25 +40,10 @@ options.add_argument('--log-level=3')
 
 service = Service(msedgedriver_path)
 
-# === Stealth Script ===
-# stealth_script = """
-#   Object.defineProperty(navigator, 'webdriver', { get: () => undefined });
-#   window.navigator.chrome = { runtime: {} };
-#   Object.defineProperty(navigator, 'plugins', { get: () => [1,2,3] });
-#   Object.defineProperty(navigator, 'languages', { get: () => ['en-US','en'] });
-# """
-# # === Autoplay Off ===
-# def disable_autoplay(driver):
-#     try:
-#         driver.execute_script("""
-#             let btn = document.querySelector('ytd-toggle-button-renderer[is-icon-button]');
-#             if (btn && btn.getAttribute('aria-pressed') === 'true') btn.click();
-#         """)
-#     except:
-#         pass
+
 def create_driver():
     driver = webdriver.Edge(service=service, options=options)
-    # driver.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {"source": stealth_script})
+    
     return driver
 
 def is_driver_alive(driver):
@@ -70,7 +55,7 @@ def is_driver_alive(driver):
 
 # === Ad Skipping & Muting ===
 def handle_ads(driver):
-    try:
+    
         driver.execute_script("""
             const player = document.getElementById('movie_player');
             if (player && player.classList.contains('ad-showing')) {
@@ -78,15 +63,7 @@ def handle_ads(driver):
                 if (video && !video.muted) video.muted = true;
             }
         """)
-        skipped = driver.execute_script("""
-            const btn = document.querySelector('.ytp-ad-skip-button, .ytp-ad-overlay-close-button');
-            if (btn) { btn.click(); return true; }
-            return false;
-        """)
-        if skipped:
-            print("⏩ Skipped an ad.")
-    except:
-        pass
+    
 
 # === Watch Until End or Change ===
 def wait_for_video_end_or_change(driver, timeout=600):
