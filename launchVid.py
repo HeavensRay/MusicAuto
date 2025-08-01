@@ -2,11 +2,11 @@ from selenium import webdriver
 from selenium.webdriver.edge.service import Service
 from selenium.webdriver.edge.options import Options
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
+
 import os
 
 from urllib.parse import urlparse, parse_qs
-import time
+
 
 
 driver = None
@@ -66,10 +66,9 @@ def handle_ads(driver):
     
 
 # === Watch Until End or Change ===
-def wait_for_video_end_or_change(driver, timeout=600):
-    end_time = time.time() + timeout
+def wait_for_video_end_or_change(driver):
 
-    while time.time() < end_time:   
+    while True:
         try:
 
             handle_ads(driver)
@@ -84,11 +83,6 @@ def wait_for_video_end_or_change(driver, timeout=600):
         except Exception:
             print("💻🔧 Browser manually manipulated")
             return
-
-        time.sleep(1)
-
-    print("⏰ Timeout waiting for video to end.")
-    return "timeout"
 
 from selenium.webdriver.common.action_chains import ActionChains
 

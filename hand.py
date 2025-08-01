@@ -3,20 +3,27 @@ from song import openSong, editSong
 import validators  
 
 qu=Queue()
-def first_launch():
-    proc=Process(target=handler,args=(qu,))
+
+def firstLaunch():
     proc.daemon=True
     proc.start()
+    return proc
 
-
-
-def handler(qu):
+def handler(queue):
     while True:
-        song=qu.get()
+        song=queue.get()
         urlManip(song)
 
+def endProc():
+    import time
+    print("Quitting ...")
+    proc.terminate()
+    proc.close()
+    time.sleep(2)
+
+proc=Process(target=handler,args=(qu,))
+
 def urlManip(songName):
-    
     url=openSong(songName)["url"]
     if(validators.url(url)):
         from launchVid import run_video_watcher
@@ -31,3 +38,5 @@ def urlManip(songName):
         else:
             print("Returning...")
             return
+        
+
