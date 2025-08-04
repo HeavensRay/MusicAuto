@@ -42,6 +42,7 @@ def editSong(songName,mode,extra):  #edits description or url etc
         file.write(modified_json)
     
     print("Song edited successfully")
+
 def SearchSong(songName):   
     from pathlib import Path
      

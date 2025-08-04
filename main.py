@@ -1,8 +1,8 @@
 from song import *
 from playList import *
 from hand import qu
+import validators  
 import const
-import time
 SONG="song"
 LIST="list"
 
@@ -11,6 +11,7 @@ def menu(command):
         case -1:
             from hand import endProc
             endProc()
+            print("Quitting ...")
             return
         case 0: print_commands()
         case 1: make_song()
@@ -148,27 +149,26 @@ def printSongInfo(songName=None):
     print(f"{songData['name']} by {songData['author']} {songData['desc']}")
     run=input("do you wish to run it? y/n ")
     if(run=="y" or run=="yes"):
-        qu.put(songName)
+        urlManip(songName)
         # from launchVid import close_window
         # close_window()
     
 
 
-# def urlManip(songName):
-#     url=openSong(songName)["url"]
-#     if(validators.url(url)):
-#         from launchVid import run_video_watcher
-#         run_video_watcher(url)
-#         return
-#     else:
-#         ans=input(f"url for {songName} not provided. Would you like to give url y/n ")
-#         if(ans=="y" or ans=="yes"):
-#             url=input("Input valid url and try again ")
-#             editSong(songName,'url',url)
-#             urlManip(songName)
-#         else:
-#             print("Returning...")
-#             return
+def urlManip(songName):
+    url=openSong(songName)["url"]
+    if(validators.url(url)):
+        qu.put(url)
+        return
+    else:
+        ans=input(f"url for {songName} not provided. Would you like to give url y/n ")
+        if(ans=="y" or ans=="yes"):
+            url=input("Input valid url and try again ")
+            editSong(songName,'url',url)
+            urlManip(songName)
+        else:
+            print("Returning...")
+            return
 
 def DeleteFile():
     answer=int(input("what would you like to delete? 1, playlist 2 song from playlist "))
@@ -274,25 +274,36 @@ def AutoPlay():
     ans=input("Would you like to randomize it? y/n ")
     if not (ans=="y" or ans=="yes"):
         for x in list(listData):
-                qu.put(x)
+                urlManip(x)
     
     else:
+        import random
+        random.shuffle(listData)
         for x in list(listData):
-                qu.put(randSong(listName,path))
+            urlManip(x)
     # from launchVid import close_window
     # close_window()
 
 def Testing():
     from Testing import testScript
-    print("Testing begins")
+    
+    from hand import endProc
+    endProc()
     const.PLAY_PATH = ".\\Testing\\"
     const.MASTER=f"{const.PLAY_PATH}Master\\"
-    print("If you wish to quit testing simply exit the program: -1 ")
     testScript.testProc()
+    print("Launching testing please wait ...")
+    
+    import time
+    time.sleep(5)
+    print("Testing begins")
+    print("If you wish to quit testing simply exit the program: -1 ")
     main()
     print("Would you like to delete testing mode? y/n ")
     const.PLAY_PATH = ".\\Playlists\\"
+    # testScript.endProc()
     print("Switched out of testing")
+    firstLaunch()
 
 def main():
     command = None
