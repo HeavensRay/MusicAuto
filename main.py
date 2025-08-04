@@ -278,8 +278,6 @@ def AutoPlay():
         random.shuffle(listData)
         for x in list(listData):
             urlManip(x)
-    # from launchVid import close_window
-    # close_window()
 
 def Testing():
 
@@ -287,12 +285,14 @@ def Testing():
     const.PLAY_PATH = ".\\Testing\\"
     const.MASTER=f"{const.PLAY_PATH}Master\\"
     
-    #testScript.testProc()
+    
     print("Launching testing please wait ...")
     
     print("Testing begins")
     print("If you wish to quit testing simply exit the program: -1 ")
     main()
+    from launchVid import close_window
+    close_window()
     print("Would you like to delete testing mode? y/n ")
     const.PLAY_PATH = ".\\Playlists\\"
     const.MASTER=f"{const.PLAY_PATH}Master\\"

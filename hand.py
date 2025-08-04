@@ -21,5 +21,3 @@ def endProc():
 
 proc=Process(target=handler,args=(qu,))
 
-
-

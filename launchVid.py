@@ -53,7 +53,7 @@ def is_driver_alive(driver):
     except:
         return False
 
-# === Ad Skipping & Muting ===
+# === Ad Muting ===
 def handle_ads(driver):
     
         driver.execute_script("""
@@ -100,8 +100,7 @@ def run_video_watcher(url):
     if driver is None or not is_driver_alive(driver):
         print("🚀 Launching new browser...")
         driver = create_driver()
-    else:
-        print("🟢 Reusing browser session.")
+
 
     if not clean_url:
         print("❌ Invalid URL")
@@ -115,7 +114,7 @@ def run_video_watcher(url):
     return 200
 
 def close_window():
-    if driver is not None:
+    if driver is not None: # sees driver as none
         print("Session ended 🎬")
         driver.close()
         
