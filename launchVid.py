@@ -115,6 +115,7 @@ def run_video_watcher(url):
     return 200
 
 def close_window():
-    print("Session ended 🎬")
     if driver is not None:
+        print("Session ended 🎬")
         driver.close()
+        

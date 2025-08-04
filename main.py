@@ -9,9 +9,6 @@ LIST="list"
 def menu(command):
     match(command):
         case -1:
-            from hand import endProc
-            endProc()
-            print("Quitting ...")
             return
         case 0: print_commands()
         case 1: make_song()
@@ -285,25 +282,21 @@ def AutoPlay():
     # close_window()
 
 def Testing():
-    from Testing import testScript
+
     
-    from hand import endProc
-    endProc()
     const.PLAY_PATH = ".\\Testing\\"
     const.MASTER=f"{const.PLAY_PATH}Master\\"
-    testScript.testProc()
+    
+    #testScript.testProc()
     print("Launching testing please wait ...")
     
-    import time
-    time.sleep(5)
     print("Testing begins")
     print("If you wish to quit testing simply exit the program: -1 ")
     main()
     print("Would you like to delete testing mode? y/n ")
     const.PLAY_PATH = ".\\Playlists\\"
-    # testScript.endProc()
+    const.MASTER=f"{const.PLAY_PATH}Master\\"
     print("Switched out of testing")
-    firstLaunch()
 
 def main():
     command = None
@@ -318,3 +311,6 @@ if __name__ == "__main__":
     from hand import firstLaunch
     firstLaunch()
     main()
+    from hand import endProc
+    endProc()
+    print("Quitting ...")
