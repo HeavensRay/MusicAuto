@@ -1,7 +1,6 @@
 from multiprocessing import Process, Queue 
 
 qu=Queue()
-
 def firstLaunch():
     proc.daemon=True
     proc.start()
@@ -14,9 +13,11 @@ def handler(queue):
         run_video_watcher(url)
 
 def endProc():
-    print("Quitting ...")
+    from launchVid import close_window
+    qu.close()
+    close_window()
     proc.terminate()
-    proc.close()
+    proc.join()
 
 proc=Process(target=handler,args=(qu,))
 

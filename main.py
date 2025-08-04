@@ -288,10 +288,10 @@ def Testing():
     from Testing import testScript
     
     from hand import endProc
-    endProc()
+    # endProc()
     const.PLAY_PATH = ".\\Testing\\"
     const.MASTER=f"{const.PLAY_PATH}Master\\"
-    testScript.testProc()
+    # testScript.testProc()
     print("Launching testing please wait ...")
     
     import time
@@ -301,9 +301,8 @@ def Testing():
     main()
     print("Would you like to delete testing mode? y/n ")
     const.PLAY_PATH = ".\\Playlists\\"
-    # testScript.endProc()
     print("Switched out of testing")
-    firstLaunch()
+    # firstLaunch()
 
 def main():
     command = None
