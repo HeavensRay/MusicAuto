@@ -29,7 +29,7 @@ def make_song(name=None): #makes song w user
             name = input(str("give name ")).strip()
             if(name==""):
                 print("Song name can't be empty")
-                main()
+                return
         author = input(str("give auth "))
         url = input(str("url? _ "))
         desc = input(str("description (optional) "))
@@ -53,7 +53,7 @@ def fileNotExist(songName,mode):
     else:
         print(f"The {mode} {songName} doesnt exist still ...")
         print("Returning to the menu")
-        main()
+        return
 
 def songEditing():
     songName=input("Which song do you wish to edit? ")
@@ -78,7 +78,7 @@ def SongToPlaylist():
     print("Adding song to a playlist")
     listName=input("Which list? ")
     try:
-        listData=openList(const.PLAY_PATH,listName)
+        listData=openList(const.PLAY_PATH,listName) # real list?
     except FileNotFoundError:
          fileNotExist(listName,LIST)
          return
@@ -87,12 +87,11 @@ def SongToPlaylist():
         songName=input("Song for playlist? ")
         try:
             SearchSong(songName)
-        except FileNotFoundError:
+        except FileNotFoundError:   #real song?
             fileNotExist(songName,SONG)
-        #now find the playlist
-        #see if list exists
+            return
         
-        #now that we have a list let's check for duplicates
+        #now that we have a list and song let's check for duplicates
         if(checkForDuplicates(songName,listData)):
             return
         addToList(const.PLAY_PATH,songName,listName)
@@ -193,7 +192,7 @@ def DelSongFromPlaylist():
 
         for x in data:
             if x==song:
-                data.remove(x)
+                newData.remove(x)
 
         with open(f'{const.PLAY_PATH}{list}.txt', 'w') as file:
             for x in newData:
@@ -214,7 +213,6 @@ def delPlaylist():
         ans=input(f"Are you sure you wish to remove playlist {list} y/n? ").lower().strip()
         if not(ans=="y" or ans=="yes"):
             print("Deletion canceled... \n returning to menu")
-            main()
             return
         print(f"Deleting {list} ... ")
         from pathlib import Path
@@ -223,7 +221,7 @@ def delPlaylist():
         newAll=allLists
 
         for x in allLists:
-            if x==list or x=='':
+            if x==list:
                 newAll.remove(x)
 
         with open(f'{const.PLAY_PATH}{ALL_LISTS}.txt', 'w') as file:
