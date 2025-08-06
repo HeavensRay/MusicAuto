@@ -186,19 +186,20 @@ def DelSongFromPlaylist():
         ans=input(f"Are you sure you wish to remove {song} from {list} y/n? ").lower().strip()
         if not(ans=="y" or ans=="yes"):
             print("Deletion canceled... \n returning to menu")
-            main()
             return
         print(f"Deleting file {song} from {list} ... ")
         
         newData=data
 
         for x in data:
-            if x==list or x=='':
+            if x==song:
                 data.remove(x)
 
         with open(f'{const.PLAY_PATH}{list}.txt', 'w') as file:
             for x in newData:
                 file.write(f"{x}:")
+        
+        print(f"{song} deleted from {list} successfully")
     except FileNotFoundError:
         print("Something wasn't found \n returning to menu")
     
