@@ -146,10 +146,9 @@ def printSongInfo(songName=None):
     run=input("do you wish to run it? y/n ")
     if(run=="y" or run=="yes"):
         urlManip(songName)
+        # qu.put(const.QU_END)
         # from launchVid import close_window
         # close_window()
-    
-
 
 def urlManip(songName):
     url=openSong(songName)["url"]
@@ -271,12 +270,14 @@ def AutoPlay():
     if not (ans=="y" or ans=="yes"):
         for x in list(listData):
                 urlManip(x)
+                # qu.put(const.QU_END)
     
     else:
         import random
         random.shuffle(listData)
         for x in list(listData):
             urlManip(x)
+            # qu.put(const.QU_END)
 
 def Testing():
 

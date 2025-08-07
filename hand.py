@@ -1,16 +1,22 @@
 from multiprocessing import Process, Queue 
+from multiprocessing import Event
 
 qu=Queue()
+
 def firstLaunch():
     proc.daemon=True
     proc.start()
-    return proc
 
 def handler(queue):
+    event=Event()
     from launchVid import run_video_watcher
     while True:
         url=queue.get()
-        run_video_watcher(url)
+        if queue.empty():
+            event.set()
+        run_video_watcher(url,event)
+        event.clear()
+        
 
 def endProc():
     from launchVid import close_window

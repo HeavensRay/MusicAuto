@@ -1,7 +1,8 @@
 from selenium import webdriver
 from selenium.webdriver.edge.service import Service
 from selenium.webdriver.edge.options import Options
-from selenium.webdriver.common.by import By
+import time
+# from multiprocessing import Event
 
 import os
 
@@ -66,7 +67,7 @@ def handle_ads(driver):
     
 
 # === Watch Until End or Change ===
-def wait_for_video_end_or_change(driver):
+def wait_for_video_end_or_change(driver,event):
 
     while True:
         try:
@@ -79,23 +80,33 @@ def wait_for_video_end_or_change(driver):
             # 0 = ended
             if state == 0:
                 print("✅ Video ended.")
-                return "ended"
+                if event.is_set():
+                    pause_on_end(driver)
+                return
+                
         except Exception:
             print("💻🔧 Browser manually manipulated")
             return
 
-from selenium.webdriver.common.action_chains import ActionChains
+# from selenium.webdriver.common.action_chains import ActionChains
 
-def hover_over_video(driver):
-    video_element = driver.find_element(By.CSS_SELECTOR, "video")
-    actions = ActionChains(driver)
-    actions.move_to_element(video_element).perform()
+# def hover_over_video(driver):
+#     video_element = driver.find_element(By.CSS_SELECTOR, "video")
+#     actions = ActionChains(driver)
+#     actions.move_to_element(video_element).perform()
 
 
 # === Main Runner ===
-def run_video_watcher(url):
-    clean_url = clean_youtube_url(url)
+def run_video_watcher(url,event):
     global driver
+
+    # if event.is_set():
+    #     time.sleep(2)
+    #     pause_on_end(driver)
+    #     return
+    
+    clean_url = clean_youtube_url(url)
+    
 
     if driver is None or not is_driver_alive(driver):
         print("🚀 Launching new browser...")
@@ -110,8 +121,17 @@ def run_video_watcher(url):
     driver.get(clean_url)
 
 
-    wait_for_video_end_or_change(driver)
+    wait_for_video_end_or_change(driver,event)
+    
     return 200
+
+def pause_on_end(driver):
+    for x in range(6):
+        driver.execute_script("""
+        var video = document.querySelector('video');
+        if (video) video.pause();
+    """)
+        time.sleep(1)
 
 def close_window():
     if driver is not None: # sees driver as none
