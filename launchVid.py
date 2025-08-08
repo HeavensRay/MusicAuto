@@ -71,12 +71,18 @@ def wait_for_video_end_or_change(driver,event):
 
     while True:
         try:
+            start = time.time()
 
             handle_ads(driver)
             state = driver.execute_script("""
                 const player = document.getElementById('movie_player');
                 return player ? player.getPlayerState() : null;
             """)
+            elapsed = time.time() - start
+            delay = 0.3 - elapsed  # 0.3 seconds = 300 ms
+
+            if delay > 0:
+                time.sleep(delay)
             # 0 = ended
             if state == 0:
                 print("✅ Video ended.")
@@ -126,7 +132,7 @@ def run_video_watcher(url,event):
     return 200
 
 def pause_on_end(driver):
-    for x in range(6):
+    for x in range(10):
         driver.execute_script("""
         var video = document.querySelector('video');
         if (video) video.pause();
