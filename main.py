@@ -280,24 +280,48 @@ def AutoPlay():
             # qu.put(const.QU_END)
 
 def Testing():
+    from pathlib import Path
+    testPath=Path(".\\Testing\\")
 
+    if not testPath.exists():
+        print("Testing not found. Returning to the menu")
+        return
     
     const.PLAY_PATH = ".\\Testing\\"
     const.MASTER=f"{const.PLAY_PATH}Master\\"
-    
-    
+        
+        
     print("Launching testing please wait ...")
-    
+        
     print("Testing begins")
     print("If you wish to quit testing simply exit the program: -1 ")
     main()
-    from launchVid import close_window
-    close_window()
-    print("Would you like to delete testing mode? y/n ")
+
     const.PLAY_PATH = ".\\Playlists\\"
     const.MASTER=f"{const.PLAY_PATH}Master\\"
     print("Switched out of testing")
 
+    answer =input("Would you like to delete testing mode? y/n ").lower().strip()
+
+    if (answer=="y" or answer=="yes"):
+        ans =input("Are you sure ? this will PERMANENTLY delete testing mode? y/n ").lower().strip()
+        
+        if(ans=="y" or ans=="yes"):
+            import shutil
+            try:
+                testPath=Path(".\\Testing\\")
+                shutil.rmtree(testPath, ignore_errors=True)
+            except Exception as e:
+                print(e)
+            if testPath.exists():
+                print("something went wrong. Couldn't delete test")
+            else:
+                print("Teesting mode succesfully deleted")
+
+        else:
+                print("Deletion of Testing mode successfully cancelled")
+
+        
 def main():
     command = None
     while(command!=-1):
