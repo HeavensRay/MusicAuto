@@ -1,18 +1,18 @@
 from selenium import webdriver
-from selenium.webdriver.edge.service import Service
+from selenium.webdriver.edge.service import Service as EdgeService
+import os
+
+# Set this BEFORE importing webdriver-manager
+os.environ["WDM_LOCAL"] = "1"
+os.environ["WDM_CACHE"] = os.path.dirname(__file__) +"\\webDriver"
 from selenium.webdriver.edge.options import Options
 from selenium.webdriver.common.by import By
-
-import os
+from webdriver_manager.microsoft import EdgeChromiumDriverManager
 
 from urllib.parse import urlparse, parse_qs
 
-
-
 driver = None
-
-# === Config ===
-msedgedriver_path = os.path.dirname(__file__) +"\\webDriver\\msedgedriver.exe"
+msedgedriver_path = os.path.dirname(__file__) +"\\webDriver"
 
 # === URL Cleanup ===
 def clean_youtube_url(url):
@@ -37,12 +37,8 @@ options.add_argument("--disable-default-apps")
 options.add_argument("--disable-sync")
 options.add_argument('--log-level=3') 
 
-
-service = Service(msedgedriver_path)
-
-
 def create_driver():
-    driver = webdriver.Edge(service=service, options=options)
+    driver = webdriver.Edge(service=EdgeService(EdgeChromiumDriverManager(msedgedriver_path).install()))
     
     return driver
 

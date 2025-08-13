@@ -8,7 +8,7 @@ class Playlist:
         createTxt(self)
     
 def createTxt(self):
-    # Create the directory
+    # Create the playlist
         try:
             with open(f'{const.PLAY_PATH}{self.name}.txt', 'x') as file: # makes empty file once
                 pass 
@@ -32,7 +32,7 @@ def checkForDuplicates(song,listData):
             return True
     return False
 
-def listExists(path,listName): #returns T/F
+def listExists(path,listName): #returns FileNotFound
     filepath = Path(path) / f"{listName}.txt"   
     if not filepath.exists():
         raise FileNotFoundError
