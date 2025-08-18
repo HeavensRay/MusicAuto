@@ -24,7 +24,7 @@ def addToList(path,songName,listName):
         file.write(f"{songName}:")
     
 def checkForDuplicates(song,listData):
-    if(listData==None):
+    if(listData==[]):
         return False
     for x in listData:
         if song==x:
