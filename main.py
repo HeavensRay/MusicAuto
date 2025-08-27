@@ -166,17 +166,17 @@ def urlManip(songName):
             return
 
 def DeleteFile():
-    answer=int(input("what would you like to delete? 1, playlist 2 song from playlist "))
+    answer=int(input("what would you like to delete? 1 playlist 2 song from playlist 3 PERMANENTLY delete a song "))
     match(answer):
         case 1: delPlaylist()
         case 2: DelSongFromPlaylist()
+        case 3: DelSongForever()
         case _: print("invalid comand, returning to the menu...")
 
 def DelSongFromPlaylist():
     print("Removing song from playlist")
     list=input("Enter playlist you wish to delete from ").strip()
     song=input("Enter song you choose to delete ").strip()
-    
     
     try:
         SearchSong(song)
@@ -187,16 +187,8 @@ def DelSongFromPlaylist():
             return
         print(f"Deleting file {song} from {list} ... ")
         
-        newData=data
-
-        for x in data:
-            if x==song:
-                newData.remove(x)
-
-        with open(f'{const.PLAY_PATH}{list}.txt', 'w') as file:
-            for x in newData:
-                file.write(f"{x}:")
-        
+        HRemFromList(data,song,f'{const.PLAY_PATH}{list}.txt')
+       
         print(f"{song} deleted from {list} successfully")
     except FileNotFoundError:
         print("Something wasn't found \n returning to menu")
@@ -215,21 +207,61 @@ def delPlaylist():
             return
         print(f"Deleting {list} ... ")
         from pathlib import Path
-     
-        listPath=Path(const.PLAY_PATH) / f"{list}.txt"
-        newAll=allLists
 
-        for x in allLists:
-            if x==list:
-                newAll.remove(x)
-
-        with open(f'{const.PLAY_PATH}{ALL_LISTS}.txt', 'w') as file:
-            for x in newAll:
-                file.write(f"{x}:")
-        listPath.unlink()
+        allListsPath=Path(const.PLAY_PATH)/f"{ALL_LISTS}.txt" #path to container
+        toRemovePath=Path(const.PLAY_PATH) / f"{list}.txt"    #path to thing to be removed
+        HRemFromList(allLists,list,allListsPath,toRemovePath)
+        
         print(f"{list} deleted")
     except FileNotFoundError:
         print("Something wasn't found \n returning to menu")
+
+def DelSongForever():
+    song=input("Which song do you wish to delete? ").lower().strip()
+    try:
+        SearchSong(song)
+    except FileNotFoundError:
+        print("Song doesn't exist")
+        return
+    
+    ans=input(f"Are you sure you wish to PERMANENTLY remove song {song} y/n? ").lower().strip()
+    if not(ans=="y" or ans=="yes"):
+        print("Deletion canceled... \n returning to menu")
+        return
+    print(f"Deleting {song} ... ")
+    
+
+    from pathlib import Path
+
+    songListPath=Path(const.MASTER)/f"{const.SONG_LIST}"
+    songList=openList(const.MASTER,const.SONG_LIST)
+    songPath=Path(const.MASTER)/f"{song}.json"
+
+    HRemFromList(songList,song,f"{songListPath}.txt",songPath)   #removes song.json and song from allsongs
+
+    allList=openList(const.PLAY_PATH,const.ALL_LISTS) #get allLists
+
+    for x in allList:   #with foreach send each list to HRem
+        parent = openList(const.PLAY_PATH,x)
+        parentPath = Path(const.PLAY_PATH) / f"{x}.txt"
+        HRemFromList(parent,song,parentPath)
+
+    print(f"Song {song} successfully deleted")
+
+
+def HRemFromList(parentData,childName,parentPath,childPath=None):   # Helper! removes child from list and rewrites the playlist
+    from pathlib import Path
+    newList=parentData
+
+    for x in parentData:
+        if x==childName:
+            newList.remove(x)
+
+    with open(f'{parentPath}', 'w') as file:
+        for x in newList:
+            file.write(f"{x}:")
+    if not childPath == None:
+        childPath.unlink()
 
 def randSong(listName=None,path=None):
     print("choosing a song at random")
