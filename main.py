@@ -348,7 +348,7 @@ def Testing():
             if testPath.exists():
                 print("something went wrong. Couldn't delete test")
             else:
-                print("Teesting mode succesfully deleted")
+                print("Teesting mode successfully deleted")
 
         else:
                 print("Deletion of Testing mode successfully cancelled")

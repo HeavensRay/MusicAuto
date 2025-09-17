@@ -44,7 +44,9 @@ service = Service(msedgedriver_path)
 
 def create_driver():
     driver = webdriver.Edge(service=service, options=options)
-    
+    width = 500
+    height = 400
+    driver.set_window_size(width, height)
     return driver
 
 def is_driver_alive(driver):
